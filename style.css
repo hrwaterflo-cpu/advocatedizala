@@ -54,6 +54,7 @@
   --display: "Manrope", "DM Sans", Arial, sans-serif;
 
   --container: min(1200px, calc(100% - 40px));
+  --section-mobile-gap: 60px;
   --radius-sm: 16px;
   --radius-md: 24px;
   --radius-lg: 36px;
@@ -106,7 +107,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
   margin-inline: auto;
 }
 
-.section-space { padding: 128px 0; }
+.section-space { padding: 92px 0; }
 
 .skip-link {
   position: fixed;
@@ -657,6 +658,13 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .ribbon-track i:nth-of-type(5n+5) { background: var(--sky-500); }
 
 @keyframes marquee { to { transform: translateX(-50%); } }
+
+/* Natural section rhythm: each section gets spacing based on its content density. */
+.about.section-space { padding: 88px 0 82px; }
+.services.section-space { padding: 94px 0 88px; }
+.highlights.section-space { padding: 82px 0; }
+.industries.section-space { padding: 88px 0 84px; }
+.contact.section-space { padding: 66px 0 74px; }
 
 /* About */
 .section-title h2,
@@ -1570,7 +1578,14 @@ button, a { -webkit-tap-highlight-color: transparent; }
 }
 
 @media (max-width: 700px) {
-  .section-space { padding: 94px 0; }
+  .section-space { padding: var(--section-mobile-gap) 0; }
+  .about.section-space { padding: 62px 0 58px; }
+  .services.section-space { padding: 64px 0 60px; }
+  .highlights.section-space { padding: 58px 0; }
+  .industries.section-space { padding: 62px 0 58px; }
+  .contact.section-space { padding: 46px 0 56px; }
+
+  .section-space { padding: 68px 0; }
 
   .trust-row { grid-template-columns: 1fr 1fr; }
   .trust-item:last-child { grid-column: 1 / -1; }
@@ -1583,9 +1598,16 @@ button, a { -webkit-tap-highlight-color: transparent; }
 }
 
 @media (max-width: 560px) {
+  :root { --section-mobile-gap: 52px; }
+  .about.section-space,
+  .services.section-space,
+  .highlights.section-space,
+  .industries.section-space { padding: 52px 0; }
+  .contact.section-space { padding: 40px 0 48px; }
+
   :root { --container: calc(100% - 28px); }
 
-  .section-space { padding: 80px 0; }
+  .section-space { padding: 56px 0; }
 
   .brand-seal { width: 40px; height: 40px; flex-basis: 40px; }
   .brand-copy strong { font-size: 13px; }
