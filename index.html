@@ -39,10 +39,307 @@
     "areaServed": "India"
   }
   </script>
+
+
+  <style id="shramsetu-popup-styles">
+    .shramsetu-notice[hidden] { display: none !important; }
+
+    .shramsetu-notice {
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      background:
+        radial-gradient(circle at 16% 12%, rgba(29, 168, 160, .22), transparent 30%),
+        radial-gradient(circle at 88% 82%, rgba(214, 154, 64, .20), transparent 28%),
+        rgba(4, 14, 24, .72);
+      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(12px);
+      opacity: 0;
+      transition: opacity .28s ease;
+    }
+
+    .shramsetu-notice.is-visible { opacity: 1; }
+
+    .shramsetu-dialog {
+      position: relative;
+      width: min(860px, 100%);
+      max-height: min(90vh, 760px);
+      overflow: auto;
+      border-radius: 30px;
+      background: linear-gradient(145deg, #fffdf8 0%, #f7fbfa 58%, #fff9f0 100%);
+      border: 1px solid rgba(255,255,255,.82);
+      box-shadow: 0 32px 90px rgba(3, 17, 29, .38), 0 8px 30px rgba(3, 17, 29, .16);
+      transform: translateY(22px) scale(.965);
+      transition: transform .34s cubic-bezier(.2,.8,.2,1);
+      color: #0f2c3c;
+      isolation: isolate;
+    }
+
+    .shramsetu-notice.is-visible .shramsetu-dialog { transform: translateY(0) scale(1); }
+
+    .shramsetu-dialog::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto;
+      height: 8px;
+      border-radius: 30px 30px 0 0;
+      background: linear-gradient(90deg, #d6983f, #e76549 32%, #26a79d 68%, #4c7fbc);
+      z-index: 2;
+    }
+
+    .shramsetu-close {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      z-index: 4;
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(255,255,255,.25);
+      border-radius: 50%;
+      background: rgba(255,255,255,.14);
+      color: #fff;
+      font: 700 27px/1 Arial, sans-serif;
+      cursor: pointer;
+      transition: transform .2s ease, background .2s ease;
+    }
+
+    .shramsetu-close:hover,
+    .shramsetu-close:focus-visible {
+      transform: rotate(4deg) scale(1.06);
+      background: rgba(255,255,255,.24);
+      outline: 2px solid rgba(255,255,255,.7);
+      outline-offset: 2px;
+    }
+
+    .shramsetu-top {
+      position: relative;
+      overflow: hidden;
+      padding: 34px 78px 28px 34px;
+      background:
+        linear-gradient(120deg, rgba(11, 39, 56, .98), rgba(9, 57, 68, .96)),
+        #0d3142;
+      color: #fff;
+    }
+
+    .shramsetu-top::after {
+      content: "";
+      position: absolute;
+      width: 260px;
+      height: 260px;
+      right: -80px;
+      bottom: -145px;
+      border: 36px solid rgba(255,255,255,.06);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .shramsetu-alert-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+
+    .shramsetu-alert-icon {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      background: linear-gradient(145deg, #ffd47d, #e98250);
+      color: #102b3a;
+      box-shadow: 0 9px 22px rgba(231, 101, 73, .28);
+      font-size: 22px;
+      font-weight: 800;
+    }
+
+    .shramsetu-badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 30px;
+      padding: 6px 11px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.17);
+      color: #f8d89f;
+      font: 800 12px/1.2 "Manrope", "DM Sans", sans-serif;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+    }
+
+    .shramsetu-top h2 {
+      margin: 0;
+      max-width: 720px;
+      font: 800 clamp(28px, 4.1vw, 46px)/1.08 "Manrope", "DM Sans", sans-serif;
+      letter-spacing: -.035em;
+      color: #fff;
+    }
+
+    .shramsetu-required {
+      display: inline-block;
+      margin-top: 13px;
+      color: #ffe4ac;
+      font: 700 15px/1.45 "DM Sans", sans-serif;
+    }
+
+    .shramsetu-body { padding: 26px 32px 30px; }
+
+    .shramsetu-section {
+      position: relative;
+      padding: 20px 22px;
+      border-radius: 20px;
+      border: 1px solid rgba(15, 44, 60, .10);
+      background: rgba(255,255,255,.75);
+      box-shadow: 0 10px 30px rgba(15, 44, 60, .06);
+    }
+
+    .shramsetu-section + .shramsetu-section { margin-top: 15px; }
+
+    .shramsetu-section-label {
+      display: block;
+      margin-bottom: 8px;
+      color: #c66f34;
+      font: 800 12px/1.2 "Manrope", sans-serif;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .shramsetu-section h3 {
+      margin: 0 0 8px;
+      color: #123246;
+      font: 800 clamp(20px, 3vw, 28px)/1.2 "Manrope", "DM Sans", sans-serif;
+      letter-spacing: -.02em;
+    }
+
+    .shramsetu-section p {
+      margin: 0;
+      color: #4c5f68;
+      font: 500 15.5px/1.65 "DM Sans", sans-serif;
+    }
+
+    .shramsetu-section-gu {
+      background: linear-gradient(135deg, rgba(235, 250, 248, .95), rgba(255,255,255,.88));
+      border-color: rgba(30, 154, 146, .18);
+    }
+
+    .shramsetu-section-gu .shramsetu-section-label { color: #17857e; }
+
+    .shramsetu-section-gu h3,
+    .shramsetu-section-gu p {
+      font-family: "Nirmala UI", "Noto Sans Gujarati", "DM Sans", sans-serif;
+    }
+
+    .shramsetu-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .shramsetu-action {
+      min-height: 54px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 12px 18px;
+      border-radius: 15px;
+      text-decoration: none;
+      font: 800 15px/1.2 "Manrope", "DM Sans", sans-serif;
+      transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+    }
+
+    .shramsetu-action:hover { transform: translateY(-2px); }
+
+    .shramsetu-action-wa {
+      background: linear-gradient(135deg, #158b74, #1ca58a);
+      color: #fff;
+      box-shadow: 0 11px 26px rgba(28, 165, 138, .25);
+    }
+
+    .shramsetu-action-contact {
+      background: #123246;
+      color: #fff;
+      box-shadow: 0 11px 26px rgba(18, 50, 70, .18);
+    }
+
+    .shramsetu-footnote {
+      margin: 14px 2px 0;
+      text-align: center;
+      color: #75828a;
+      font: 600 12px/1.5 "DM Sans", sans-serif;
+    }
+
+    body.shramsetu-modal-open { overflow: hidden; }
+
+    @media (max-width: 640px) {
+      .shramsetu-notice { padding: 12px; align-items: center; }
+      .shramsetu-dialog { border-radius: 22px; max-height: 94vh; }
+      .shramsetu-dialog::before { border-radius: 22px 22px 0 0; }
+      .shramsetu-top { padding: 28px 62px 22px 20px; }
+      .shramsetu-close { top: 14px; right: 14px; width: 40px; height: 40px; }
+      .shramsetu-body { padding: 18px; }
+      .shramsetu-section { padding: 17px; border-radius: 17px; }
+      .shramsetu-actions { grid-template-columns: 1fr; }
+      .shramsetu-top h2 { font-size: clamp(25px, 8.2vw, 36px); }
+      .shramsetu-section h3 { font-size: 21px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .shramsetu-notice,
+      .shramsetu-dialog,
+      .shramsetu-action,
+      .shramsetu-close { transition: none !important; }
+    }
+  </style>
+
 </head>
 
 <body>
   <a class="skip-link" href="#main-content">Skip to content</a>
+
+  <div class="shramsetu-notice" id="shramsetu-popup" role="dialog" aria-modal="true" aria-labelledby="shramsetu-title" aria-describedby="shramsetu-description" hidden>
+    <div class="shramsetu-dialog">
+      <button class="shramsetu-close" id="shramsetu-close" type="button" aria-label="Close ShramSetu registration notice">×</button>
+
+      <div class="shramsetu-top">
+        <div class="shramsetu-alert-row">
+          <span class="shramsetu-alert-icon" aria-hidden="true">!</span>
+          <span class="shramsetu-badge">Important Update</span>
+        </div>
+        <h2 id="shramsetu-title">ShramSetu Portal Registration is Now Required</h2>
+        <span class="shramsetu-required">Registration support is available now.</span>
+      </div>
+
+      <div class="shramsetu-body">
+        <section class="shramsetu-section" aria-label="English notice">
+          <span class="shramsetu-section-label">English</span>
+          <h3>Need help with ShramSetu registration?</h3>
+          <p id="shramsetu-description">Professional assistance is available for ShramSetu Portal registration and related compliance support. Contact us for registration guidance and support.</p>
+        </section>
+
+        <section class="shramsetu-section shramsetu-section-gu" lang="gu" aria-label="Gujarati notice">
+          <span class="shramsetu-section-label">મહત્વપૂર્ણ સૂચના</span>
+          <h3>શ્રમસેતુ પોર્ટલ રજીસ્ટ્રેશન હવે ફરજિયાત છે</h3>
+          <p>શ્રમસેતુ પોર્ટલ રજીસ્ટ્રેશન તથા સંબંધિત કંપ્લાયન્સ માટે વ્યાવસાયિક સહાય ઉપલબ્ધ છે. રજીસ્ટ્રેશન માર્ગદર્શન અને સહાય માટે અમારો સંપર્ક કરો.</p>
+        </section>
+
+        <div class="shramsetu-actions">
+          <a class="shramsetu-action shramsetu-action-wa" id="shramsetu-whatsapp" href="https://wa.me/919904735167" target="_blank" rel="noopener">WhatsApp Now</a>
+          <a class="shramsetu-action shramsetu-action-contact" id="shramsetu-contact" href="#contact">Contact Us</a>
+        </div>
+
+        <p class="shramsetu-footnote">Advocate Divyarajsinh Zala · Labour Law &amp; Compliance Support</p>
+      </div>
+    </div>
+  </div>
+
 
   <div class="ambient-canvas" aria-hidden="true">
     <span class="ambient ambient-gold"></span>
@@ -544,6 +841,83 @@
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
     </a>
   </div>
+
+
+
+  <script id="shramsetu-popup-script">
+    (function () {
+      var popup = document.getElementById('shramsetu-popup');
+      var closeButton = document.getElementById('shramsetu-close');
+      var contactButton = document.getElementById('shramsetu-contact');
+      var whatsappButton = document.getElementById('shramsetu-whatsapp');
+      var storageKey = 'shramsetu_popup_closed';
+      var lastFocused = null;
+
+      if (!popup || !closeButton) return;
+
+      function wasClosedThisSession() {
+        try {
+          return sessionStorage.getItem('shramsetu_popup_closed') === '1';
+        } catch (error) {
+          return false;
+        }
+      }
+
+      function rememberClosed() {
+        try {
+          sessionStorage.setItem('shramsetu_popup_closed', '1');
+        } catch (error) {
+          // If storage is unavailable, closing still works for the current page.
+        }
+      }
+
+      function openPopup() {
+        lastFocused = document.activeElement;
+        popup.hidden = false;
+        document.body.classList.add('shramsetu-modal-open');
+        requestAnimationFrame(function () {
+          popup.classList.add('is-visible');
+          closeButton.focus({ preventScroll: true });
+        });
+      }
+
+      function closePopup(remember) {
+        if (remember !== false) rememberClosed();
+        popup.classList.remove('is-visible');
+        document.body.classList.remove('shramsetu-modal-open');
+
+        window.setTimeout(function () {
+          popup.hidden = true;
+          if (lastFocused && typeof lastFocused.focus === 'function') {
+            lastFocused.focus({ preventScroll: true });
+          }
+        }, 280);
+      }
+
+      if (!wasClosedThisSession()) {
+        openPopup();
+      }
+
+      closeButton.addEventListener('click', function () { closePopup(true); });
+
+      popup.addEventListener('click', function (event) {
+        if (event.target === popup) closePopup(true);
+      });
+
+      document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape' && !popup.hidden) closePopup(true);
+      });
+
+      if (contactButton) {
+        contactButton.addEventListener('click', function () { closePopup(true); });
+      }
+
+      if (whatsappButton) {
+        whatsappButton.addEventListener('click', function () { closePopup(true); });
+      }
+    }());
+  </script>
+
 
   <script src="script.js"></script>
 </body>
