@@ -3222,4 +3222,198 @@ body{
   }
 }
 
+/* =========================================================
+   HEADER NAV MINIMUM WAGE BUTTON
+   ========================================================= */
+.main-nav .nav-wage-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #0b2545, #153e6f);
+  border: 1px solid rgba(245, 158, 11, 0.45);
+  color: #ffffff !important;
+  font-family: var(--display);
+  font-size: 13.5px;
+  font-weight: 800;
+  letter-spacing: .01em;
+  box-shadow: 0 4px 12px rgba(11, 37, 69, 0.18);
+  transition: all .24s cubic-bezier(.2,.8,.2,1);
+}
+
+.main-nav .nav-wage-btn:hover {
+  background: linear-gradient(135deg, #07192d, #0b2545);
+  border-color: #f59e0b;
+  box-shadow: 0 6px 18px rgba(245, 158, 11, 0.28);
+  transform: translateY(-1.5px);
+  color: #fef08a !important;
+}
+
+@media (max-width: 900px) {
+  .main-nav .nav-wage-btn {
+    font-size: 16px !important;
+    padding: 12px 20px !important;
+    justify-content: center;
+    border-radius: 16px !important;
+    margin: 4px 0;
+  }
+}
+
+/* =========================================================
+   FLOATING STATUTORY ALERT BUTTON (GUJARAT MINIMUM WAGE)
+   ========================================================= */
+.floating-wage-alert {
+  position: fixed;
+  left: 20px;
+  bottom: 20px;
+  z-index: 88;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px 10px 12px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #07192d 0%, #0b2545 100%);
+  border: 1.5px solid rgba(245, 158, 11, 0.7);
+  box-shadow: 0 8px 26px rgba(11, 37, 69, 0.35), 0 0 16px rgba(245, 158, 11, 0.25);
+  color: #ffffff !important;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.26s cubic-bezier(0.2, 0.8, 0.2, 1);
+  animation: floatAlertPulse 3.5s infinite ease-in-out;
+}
+
+@keyframes floatAlertPulse {
+  0%, 100% {
+    transform: translateY(0);
+    box-shadow: 0 8px 26px rgba(11, 37, 69, 0.35), 0 0 16px rgba(245, 158, 11, 0.25);
+  }
+  50% {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(11, 37, 69, 0.45), 0 0 24px rgba(245, 158, 11, 0.4);
+  }
+}
+
+.floating-wage-alert:hover {
+  transform: translateY(-3px) scale(1.02);
+  background: linear-gradient(135deg, #0b2545 0%, #153e6f 100%);
+  border-color: #f59e0b;
+  box-shadow: 0 14px 36px rgba(11, 37, 69, 0.5), 0 0 28px rgba(245, 158, 11, 0.45);
+}
+
+.alert-badge-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: #07192d;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  position: relative;
+  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.4);
+}
+
+.alert-badge-icon svg {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+  animation: bellRing 2.5s infinite ease-in-out;
+}
+
+@keyframes bellRing {
+  0%, 100% { transform: rotate(0); }
+  10%, 30% { transform: rotate(14deg); }
+  20%, 40% { transform: rotate(-14deg); }
+  50% { transform: rotate(0); }
+}
+
+.alert-badge-pulse-dot {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: #ef4444;
+  border: 2px solid #07192d;
+  animation: pulseDotAlert 1.5s infinite;
+}
+
+@keyframes pulseDotAlert {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+  70% { transform: scale(1.1); box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+}
+
+.alert-badge-content {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+}
+
+.alert-badge-content small {
+  font-family: var(--display);
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: #f59e0b;
+}
+
+.alert-badge-content strong {
+  font-family: var(--display);
+  font-size: 13.5px;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: .01em;
+}
+
+.alert-badge-arrow {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  color: #dfc185;
+  font-size: 13px;
+  font-weight: 800;
+  margin-left: 2px;
+  transition: transform 0.2s ease;
+}
+
+.floating-wage-alert:hover .alert-badge-arrow {
+  transform: translateX(3px);
+  background: #f59e0b;
+  color: #07192d;
+}
+
+@media (max-width: 680px) {
+  .floating-wage-alert {
+    left: 10px;
+    bottom: 12px;
+    padding: 7px 11px 7px 7px;
+    gap: 7px;
+    max-width: calc(100vw - 85px);
+  }
+  .alert-badge-icon {
+    width: 32px;
+    height: 32px;
+  }
+  .alert-badge-icon svg {
+    width: 16px;
+    height: 16px;
+  }
+  .alert-badge-content small {
+    font-size: 9px;
+  }
+  .alert-badge-content strong {
+    font-size: 11.5px;
+  }
+  .alert-badge-arrow {
+    display: none;
+  }
+}
+
 
