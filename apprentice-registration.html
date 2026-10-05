@@ -13,6 +13,15 @@
 
   <title>Apprenticeship Registration Guide | Advocate DIVYARAJSINH ZALA</title>
 
+  <!-- Instant Check for Client PIN Verification (Zero-flicker for verified clients) -->
+  <script>
+    try {
+      if (localStorage.getItem("dz_client_pin_auth") === "7589") {
+        document.documentElement.classList.add("pin-verified");
+      }
+    } catch (e) {}
+  </script>
+
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1175,11 +1184,406 @@
         justify-content: center;
       }
     }
+
+    /* =========================================================
+       CLIENT ACCESS VERIFICATION GATE (PIN: 7589)
+       ========================================================= */
+    body.lock-screen-open {
+      overflow: hidden !important;
+    }
+
+    #main-content.content-locked {
+      filter: blur(14px) brightness(0.92);
+      pointer-events: none !important;
+      user-select: none !important;
+      transition: filter 0.35s ease;
+    }
+
+    .client-lock-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 999999;
+      display: grid;
+      place-items: center;
+      padding: 20px;
+      background:
+        radial-gradient(circle at 18% 14%, rgba(26, 94, 168, 0.28), transparent 32%),
+        radial-gradient(circle at 84% 82%, rgba(181, 141, 61, 0.24), transparent 30%),
+        rgba(8, 22, 38, 0.82);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      opacity: 1;
+      visibility: visible;
+      transition: opacity 0.32s ease, visibility 0.32s ease;
+    }
+
+    .client-lock-overlay.unlocked {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    /* Verification state overrides */
+    html.pin-verified #clientLockOverlay {
+      display: none !important;
+    }
+
+    html.pin-verified #main-content.content-locked {
+      filter: none !important;
+      pointer-events: auto !important;
+      user-select: auto !important;
+    }
+
+    html.pin-verified body.lock-screen-open {
+      overflow: auto !important;
+    }
+
+    html.pin-verified #btnRelockPage {
+      display: inline-flex !important;
+    }
+
+    .btn-relock {
+      display: none;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 13px;
+      border-radius: 999px;
+      background: rgba(181, 141, 61, 0.12);
+      border: 1px solid rgba(181, 141, 61, 0.35);
+      color: #926d25;
+      font-family: var(--display);
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-relock:hover {
+      background: rgba(181, 141, 61, 0.22);
+      color: #725215;
+    }
+
+    .client-lock-card {
+      position: relative;
+      width: min(520px, 100%);
+      max-height: min(92vh, 720px);
+      overflow-y: auto;
+      border-radius: 28px;
+      background: linear-gradient(145deg, #ffffff 0%, #f7fafd 55%, #fdfbf7 100%);
+      border: 1px solid rgba(255, 255, 255, 0.85);
+      box-shadow: 0 28px 80px rgba(5, 17, 30, 0.42), 0 8px 26px rgba(5, 17, 30, 0.16);
+      padding: 34px 36px 30px;
+      text-align: center;
+      color: var(--guide-navy);
+      transform: translateY(0) scale(1);
+      transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .lock-icon-seal {
+      width: 68px;
+      height: 68px;
+      border-radius: 22px;
+      margin: 0 auto 16px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, #0a1b2d, #1a5ea8);
+      color: #dfc185;
+      box-shadow: 0 10px 24px rgba(10, 27, 45, 0.22);
+    }
+
+    .lock-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      border-radius: 999px;
+      background: rgba(181, 141, 61, 0.14);
+      border: 1px solid rgba(181, 141, 61, 0.32);
+      color: #926d25;
+      font-family: var(--display);
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-bottom: 12px;
+    }
+
+    .client-lock-card h2 {
+      margin: 0 0 8px;
+      font-family: var(--display);
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--guide-navy);
+      line-height: 1.2;
+    }
+
+    .client-lock-card p.lock-desc {
+      margin: 0 0 22px;
+      color: var(--guide-text-muted);
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    .lock-form {
+      margin-bottom: 22px;
+    }
+
+    .pin-input-group {
+      position: relative;
+      max-width: 300px;
+      margin: 0 auto 12px;
+    }
+
+    .pin-input-group input {
+      width: 100%;
+      height: 54px;
+      text-align: center;
+      font-family: var(--display);
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: .25em;
+      border-radius: 16px;
+      border: 2px solid rgba(26, 94, 168, 0.25);
+      background: #ffffff;
+      color: var(--guide-navy);
+      padding: 0 46px 0 20px;
+      box-shadow: inset 0 2px 6px rgba(10, 27, 45, 0.05);
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    .pin-input-group input:focus {
+      border-color: var(--guide-blue);
+      box-shadow: 0 0 0 4px rgba(26, 94, 168, 0.15);
+    }
+
+    .pin-input-group input.pin-shake {
+      animation: pinShake 0.4s ease;
+      border-color: #d9534f;
+    }
+
+    @keyframes pinShake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-8px); }
+      40%, 80% { transform: translateX(8px); }
+    }
+
+    .btn-toggle-pin {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      font-size: 18px;
+      cursor: pointer;
+      padding: 6px;
+      line-height: 1;
+      opacity: 0.65;
+      transition: opacity 0.2s ease;
+    }
+
+    .btn-toggle-pin:hover {
+      opacity: 1;
+    }
+
+    .pin-error-alert {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      padding: 8px 14px;
+      border-radius: 10px;
+      background: #feeceb;
+      border: 1px solid rgba(217, 83, 79, 0.3);
+      color: #b52b27;
+      font-size: 13px;
+      font-weight: 600;
+      margin: 0 auto 14px;
+      max-width: 360px;
+    }
+
+    .btn-unlock-guide {
+      width: 100%;
+      max-width: 300px;
+      height: 48px;
+      margin: 0 auto;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #1a5ea8, #2a7cd6);
+      border: none;
+      color: #ffffff;
+      font-family: var(--display);
+      font-size: 14.5px;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      box-shadow: 0 6px 18px rgba(26, 94, 168, 0.28);
+      transition: all 0.2s ease;
+    }
+
+    .btn-unlock-guide:hover {
+      background: linear-gradient(135deg, #164d8a, #206ec4);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(26, 94, 168, 0.38);
+    }
+
+    /* WhatsApp Request Box */
+    .request-access-box {
+      margin-top: 20px;
+      padding: 18px 20px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, #f0faf6 0%, #e7f7f0 100%);
+      border: 1px solid rgba(22, 138, 99, 0.24);
+      text-align: center;
+    }
+
+    .request-access-box strong {
+      display: block;
+      color: #0d543c;
+      font-family: var(--display);
+      font-size: 14px;
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+
+    .request-access-box p {
+      margin: 0 0 12px;
+      font-size: 12.5px;
+      color: #3b6e5b;
+      line-height: 1.45;
+    }
+
+    .btn-request-wa {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      padding: 11px 18px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #158b74, #1ca58a);
+      color: #ffffff !important;
+      font-family: var(--display);
+      font-size: 13.5px;
+      font-weight: 800;
+      text-decoration: none;
+      box-shadow: 0 4px 14px rgba(28, 165, 138, 0.28);
+      transition: all 0.2s ease;
+    }
+
+    .btn-request-wa:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(28, 165, 138, 0.38);
+    }
+
+    .lock-footer-row {
+      margin-top: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      font-size: 12.5px;
+      padding-top: 14px;
+      border-top: 1px solid var(--guide-border-subtle);
+    }
+
+    .lock-call-link {
+      color: var(--guide-blue);
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      text-decoration: none;
+    }
+
+    .lock-call-link:hover {
+      text-decoration: underline;
+    }
+
+    .lock-home-link {
+      color: var(--guide-text-muted);
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .lock-home-link:hover {
+      color: var(--guide-navy);
+      text-decoration: underline;
+    }
+
+    @media (max-width: 480px) {
+      .client-lock-card {
+        padding: 26px 20px 22px;
+        border-radius: 22px;
+      }
+      .client-lock-card h2 {
+        font-size: 21px;
+      }
+      .pin-input-group input {
+        font-size: 22px;
+        height: 48px;
+      }
+    }
   </style>
 </head>
 
-<body>
+<body class="lock-screen-open">
   <a class="skip-link" href="#main-content">Skip to content</a>
+
+  <!-- =========================================================
+       CLIENT ACCESS PIN LOCK OVERLAY (PIN: 7589)
+       ========================================================= -->
+  <div class="client-lock-overlay" id="clientLockOverlay" role="dialog" aria-modal="true" aria-labelledby="lockTitle">
+    <div class="client-lock-card">
+      <div class="lock-card-header">
+        <div class="lock-icon-seal" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="30" height="30" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+        </div>
+        <span class="lock-badge">🔒 Restricted Client Access</span>
+        <h2 id="lockTitle">Client Verification Required</h2>
+        <p class="lock-desc">This statutory guide is reserved for registered clients of Advocate Divyarajsinh Zala &amp; Team. Please enter your 4-digit PIN to continue.</p>
+      </div>
+
+      <form class="lock-form" id="pinForm" onsubmit="return false;">
+        <div class="pin-input-group">
+          <input type="password" id="pinInput" maxlength="6" inputmode="numeric" autocomplete="off" placeholder="••••" aria-label="Enter 4-digit Client Access PIN">
+          <button type="button" class="btn-toggle-pin" id="togglePinVisibility" aria-label="Toggle PIN visibility">👁️</button>
+        </div>
+
+        <div class="pin-error-alert" id="pinErrorAlert" hidden>
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+          <span>Invalid PIN. Please try again or request PIN below.</span>
+        </div>
+
+        <button type="submit" class="btn-unlock-guide" id="btnUnlock">
+          <span>Verify &amp; Unlock Guide</span>
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+      </form>
+
+      <!-- WhatsApp Access Request Box -->
+      <div class="request-access-box">
+        <strong>Don't have the Access PIN? / PIN નથી અથવા જોઈએ છે?</strong>
+        <p>If you need access to this statutory guide, tap below to contact Advocate Divyarajsinh Zala directly on WhatsApp.</p>
+        <a class="btn-request-wa" href="https://wa.me/919904735167?text=Hello%20Advocate%20Divyarajsinh%20Zala,%20please%20send%20me%20the%20Client%20Access%20PIN%20for%20the%20Apprenticeship%20Registration%20Guide." target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M12 3a9 9 0 0 0-7.7 13.7L3 21l4.5-1.2A9 9 0 1 0 12 3Zm4.8 12.6c-.2.6-1.2 1.1-1.7 1.2-.5.1-1.1.2-3.5-.8-2.9-1.2-4.8-4.2-5-4.5-.1-.2-1.2-1.6-1.2-3 0-1.5.8-2.2 1.1-2.5.3-.3.6-.4.9-.4h.6c.2 0 .5 0 .7.5.2.6.8 2 .9 2.1.1.2.1.4 0 .6-.1.2-.2.4-.4.6l-.6.7c-.2.2-.4.4-.2.8.2.4.9 1.5 2 2.4 1.4 1.2 2.5 1.6 2.9 1.8.4.2.6.2.8-.1.2-.3.9-1.1 1.1-1.5.2-.4.5-.3.8-.2l2 .9c.4.2.7.3.8.5.1.2.1.6 0 .9Z"/></svg>
+          <span>Request PIN on WhatsApp / વ્હોટ્સએપ પર પિન મેળવો</span>
+        </a>
+      </div>
+
+      <div class="lock-footer-row">
+        <a href="tel:+919664903431" class="lock-call-link">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M6 3h4l2 5-3 2c1.4 3 2.6 4.2 5.6 5.6l2-3 5 2v4c0 1.1-.9 2-2 2C10.4 20.6 3.4 13.6 3.4 5c0-1.1.9-2 2-2H6Z"/></svg>
+          Call Office: 96649 03431
+        </a>
+        <a href="index.html" class="lock-home-link">← Return to Home</a>
+      </div>
+    </div>
+  </div>
 
   <!-- Top Sticky Header -->
   <header class="apprentice-page-header" id="top">
@@ -1204,6 +1608,12 @@
           <span>← All Registrations</span>
         </a>
 
+        <!-- Relock Button (Visible when client is verified) -->
+        <button type="button" class="btn-relock" id="btnRelockPage" title="Lock Guide Again">
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor" aria-hidden="true"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+          <span>Lock Guide</span>
+        </button>
+
         <!-- Office Contact Quick Pill -->
         <a class="header-office-call" href="tel:+919664903431" title="Call at Our Office">
           <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M6 3h4l2 5-3 2c1.4 3 2.6 4.2 5.6 5.6l2-3 5 2v4c0 1.1-.9 2-2 2C10.4 20.6 3.4 13.6 3.4 5c0-1.1.9-2 2-2H6Z"/></svg>
@@ -1217,7 +1627,7 @@
     </div>
   </header>
 
-  <main id="main-content">
+  <main id="main-content" class="content-locked">
     <!-- Hero Section -->
     <section class="apprentice-hero">
       <div class="container">
@@ -2198,12 +2608,13 @@
 
   <script>
     document.addEventListener("DOMContentLoaded", () => {
+      // Dynamic copyright year
       const year = document.querySelector("#year");
       if (year) {
         year.textContent = new Date().getFullYear();
       }
 
-      // Apprenticeship tab switcher
+      // Apprenticeship tab switcher (Candidate / Employer)
       const apprenticeTabs = document.querySelectorAll(".apprentice-tab-btn");
       const apprenticePanels = document.querySelectorAll(".apprentice-tab-panel");
 
@@ -2228,6 +2639,137 @@
           }
         });
       });
+
+      // ============================================================
+      // CLIENT ACCESS PIN PROTECTION (PIN: 7589)
+      // ============================================================
+      const CLIENT_PIN = "7589";
+      const AUTH_STORAGE_KEY = "dz_client_pin_auth";
+
+      const lockOverlay = document.getElementById("clientLockOverlay");
+      const mainContent = document.getElementById("main-content");
+      const pinForm = document.getElementById("pinForm");
+      const pinInput = document.getElementById("pinInput");
+      const pinErrorAlert = document.getElementById("pinErrorAlert");
+      const togglePinBtn = document.getElementById("togglePinVisibility");
+      const btnRelock = document.getElementById("btnRelockPage");
+
+      function unlockGuide(saveStorage = true) {
+        if (saveStorage) {
+          try {
+            localStorage.setItem(AUTH_STORAGE_KEY, CLIENT_PIN);
+          } catch (e) {}
+        }
+        document.documentElement.classList.add("pin-verified");
+        document.body.classList.remove("lock-screen-open");
+        if (mainContent) {
+          mainContent.classList.remove("content-locked");
+        }
+        if (lockOverlay) {
+          lockOverlay.classList.add("unlocked");
+          setTimeout(() => {
+            lockOverlay.style.display = "none";
+          }, 350);
+        }
+        if (btnRelock) {
+          btnRelock.style.display = "inline-flex";
+        }
+      }
+
+      function lockGuide() {
+        try {
+          localStorage.removeItem(AUTH_STORAGE_KEY);
+        } catch (e) {}
+        document.documentElement.classList.remove("pin-verified");
+        document.body.classList.add("lock-screen-open");
+        if (mainContent) {
+          mainContent.classList.add("content-locked");
+        }
+        if (lockOverlay) {
+          lockOverlay.style.display = "grid";
+          lockOverlay.classList.remove("unlocked");
+        }
+        if (btnRelock) {
+          btnRelock.style.display = "none";
+        }
+        if (pinInput) {
+          pinInput.value = "";
+          setTimeout(() => pinInput.focus(), 150);
+        }
+        if (pinErrorAlert) {
+          pinErrorAlert.hidden = true;
+        }
+      }
+
+      function verifyPin() {
+        if (!pinInput) return;
+        const enteredPin = pinInput.value.trim();
+
+        if (enteredPin === CLIENT_PIN) {
+          if (pinErrorAlert) pinErrorAlert.hidden = true;
+          unlockGuide(true);
+        } else {
+          if (pinErrorAlert) pinErrorAlert.hidden = false;
+          pinInput.classList.remove("pin-shake");
+          void pinInput.offsetWidth; // Force CSS reflow to replay shake animation
+          pinInput.classList.add("pin-shake");
+          pinInput.value = "";
+          pinInput.focus();
+        }
+      }
+
+      // Check initial auth state from previous visit
+      let isAlreadyVerified = false;
+      try {
+        if (localStorage.getItem(AUTH_STORAGE_KEY) === CLIENT_PIN) {
+          isAlreadyVerified = true;
+        }
+      } catch (e) {}
+
+      if (isAlreadyVerified) {
+        unlockGuide(false);
+      } else {
+        setTimeout(() => {
+          if (pinInput) pinInput.focus();
+        }, 300);
+      }
+
+      // Form Submit
+      if (pinForm) {
+        pinForm.addEventListener("submit", (e) => {
+          e.preventDefault();
+          verifyPin();
+        });
+      }
+
+      // Auto-submit when exactly 4 digits are entered
+      if (pinInput) {
+        pinInput.addEventListener("input", () => {
+          if (pinErrorAlert && !pinErrorAlert.hidden) {
+            pinErrorAlert.hidden = true;
+          }
+          if (pinInput.value.trim().length === 4) {
+            verifyPin();
+          }
+        });
+      }
+
+      // Toggle Show/Hide PIN
+      if (togglePinBtn && pinInput) {
+        togglePinBtn.addEventListener("click", () => {
+          const isPassword = pinInput.getAttribute("type") === "password";
+          pinInput.setAttribute("type", isPassword ? "text" : "password");
+          togglePinBtn.textContent = isPassword ? "🙈" : "👁️";
+          togglePinBtn.setAttribute("aria-label", isPassword ? "Hide PIN" : "Show PIN");
+        });
+      }
+
+      // Relock button
+      if (btnRelock) {
+        btnRelock.addEventListener("click", () => {
+          lockGuide();
+        });
+      }
     });
   </script>
 </body>
