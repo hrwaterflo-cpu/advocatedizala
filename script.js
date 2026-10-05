@@ -169,4 +169,34 @@ document.addEventListener("DOMContentLoaded", () => {
       if (inner) resetTilt(inner);
     });
   });
+
+  // Apprenticeship Tab Switcher
+  const apprenticeTabs = document.querySelectorAll(".apprentice-tab-btn");
+  const apprenticePanels = document.querySelectorAll(".apprentice-tab-panel");
+
+  apprenticeTabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+      const targetId = tab.dataset.tab;
+      apprenticeTabs.forEach((t) => {
+        t.classList.remove("active");
+        t.setAttribute("aria-selected", "false");
+      });
+      apprenticePanels.forEach((p) => {
+        p.classList.remove("active");
+        p.hidden = true;
+      });
+
+      tab.classList.add("active");
+      tab.setAttribute("aria-selected", "true");
+      const targetPanel = document.getElementById(targetId);
+      if (targetPanel) {
+        targetPanel.classList.add("active");
+        targetPanel.hidden = false;
+        // Make sure newly visible cards have in-view class for reveal animation
+        const newReveals = targetPanel.querySelectorAll(".reveal:not(.in-view)");
+        newReveals.forEach((r) => r.classList.add("in-view"));
+      }
+    });
+  });
 });
+
